@@ -61,7 +61,7 @@
 							<div class="box-content">																
 								<div class="context-attributes">	
 									{include uri="design:content/edit_validation.tpl"}															
-									{include uri="design:edit_attribute.tpl"}
+									{include uri="design:content/edit_attribute.tpl"}
 								</div> {* END class="context-attributes" *}
 							</div> {* END class="box-content" *}
 						</div> {* END class="box-mr" *}							

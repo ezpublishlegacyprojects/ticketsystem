@@ -26,44 +26,55 @@
 						<div class="mainobject-window">
     					        {* in window *}
 								<div class="holdinplace">    						
-								    <div class="block">
-					            		<label>{$node.object.data_map.name.contentclass_attribute.name}:</label>        
-										{attribute_view_gui attribute=$node.object.data_map.name}
-							        </div>     
-							        <div class="block">
-							            <label>{$node.object.data_map.category.contentclass_attribute.name}:</label>
-								        {attribute_view_gui attribute=$node.object.data_map.category}        
-								    </div>    
-								    <div class="block">
-							            <label>{$node.object.data_map.type.contentclass_attribute.name}:</label>
-								        {attribute_view_gui attribute=$node.object.data_map.type}        
-								    </div>    
-								    <div class="block">
-							            <label>{$node.object.data_map.description.contentclass_attribute.name}:</label>        
+				<table class="list"  style="width:30%; float:right" >
+														    
+								 <tr>
+								    <th> {$node.object.data_map.category.contentclass_attribute.name}:</th>
+								     <td> {attribute_view_gui attribute=$node.object.data_map.category} </td>
+								</tr>								    
+								 <tr>
+								    <th>{$node.object.data_map.type.contentclass_attribute.name}: </th>
+								     <td>  {attribute_view_gui attribute=$node.object.data_map.type}  </td>
+								</tr>								    
+								<tr>
+								    <th>{$node.object.data_map.project.contentclass_attribute.name}: </th>
+								     <td> {attribute_view_gui attribute=$node.object.data_map.project} </td>
+								</tr>								    
+								<tr>
+								    <th>{$node.object.data_map.assigned.contentclass_attribute.name}: </th>
+								     <td>   {attribute_view_gui attribute=$node.object.data_map.assigned} </td>
+								</tr>								  
+								<tr>
+								    <th>{$node.object.data_map.priority.contentclass_attribute.name}: </th>
+								     <td>{attribute_view_gui attribute=$node.object.data_map.priority}     </td>
+								</tr>								    
+								<tr>
+								    <th>{$node.object.data_map.state.contentclass_attribute.name}: </th>
+								     <td>{attribute_view_gui attribute=$node.object.data_map.state}    </td>
+							 	</tr>								  
+							    <tr>
+								    <th>{$node.object.data_map.deadline.contentclass_attribute.name}:</th>
+								     <td>
+								     {if $node.object.data_map.deadline.has_content|not}
+								     <p>none</p>
+								     {else}
+								     {attribute_view_gui attribute=$node.object.data_map.deadline}
+								     {/if}
+								     </td>
+								    </tr>
+								    
+							</table> 	
+								    
+								     
+							            <h3>{$node.object.data_map.name.contentclass_attribute.name}:</h3>        
+											{attribute_view_gui attribute=$node.object.data_map.name} 
+							       
+							        						    			
+    					         				            <h3>{$node.object.data_map.description.contentclass_attribute.name}:</h3>        
 											{attribute_view_gui attribute=$node.object.data_map.description}
-							        </div>    
-							        <div class="block">
-					    		        <label>{$node.object.data_map.project.contentclass_attribute.name}:</label>
-					        			{attribute_view_gui attribute=$node.object.data_map.project}        
-							        </div>    
-							        <div class="block">	
-							            <label>{$node.object.data_map.priority.contentclass_attribute.name}:</label>
-							            {attribute_view_gui attribute=$node.object.data_map.priority}        
-							        </div>    
-							        <div class="block">
-					    		        <label>{$node.object.data_map.state.contentclass_attribute.name}:</label>
-						        		{attribute_view_gui attribute=$node.object.data_map.state}        
-								    </div>    
-								    <div class="block">
-							            <label>{$node.object.data_map.assigned.contentclass_attribute.name}:</label>
-								         {attribute_view_gui attribute=$node.object.data_map.assigned}        
-								     </div>    
-								     <div class="block">
-							            <label>{$node.object.data_map.deadline.contentclass_attribute.name}:</label>
-    			        		     </div>
-		    			             {attribute_view_gui attribute=$node.object.data_map.deadline}
-    					         </div>
-    					         {* in window *}
+							    
+				
+    					         {* in window *} 
 							<div class="break"></div>
 						</div>
 					</div>
@@ -99,6 +110,19 @@
 												</form>	
 												{undef}
 												</div>
+												
+													<div class="element">
+												{def $class=fetch( 'content', 'class', hash( 'class_id', 'ticket_edit' ) )}															 
+										        <form enctype="multipart/form-data" method="post" action={"content/action/"|ezurl}>	
+										            <input type="hidden" name="ContentLanguageCode" value="{ezini( 'RegionalSettings','ContentObjectLocale' )}" />												
+													<input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />																																																															
+													<input type="hidden" name="ClassID" value="{$class.id}" />
+													<input type="hidden" name="NodeID" value="{$node.node_id}" />				
+													<input class="button" type="submit" name="EditButton" value="Edit" />
+												</form>	
+												{undef}
+												</div>
+																								
 											    </div>    
 												<div class="break"></div>
 											</div>

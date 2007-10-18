@@ -141,6 +141,22 @@
 </div>
 
 </form>
+<div id="searchbox" style="float: right; padding-right: 30px;">
+      <form action={"/content/search"|ezurl}>
+        {if eq( $ui_context, 'edit' )}
+        <input id="searchtext" name="SearchText" type="text" value="" size="12" disabled="disabled" />
+        <input id="SubTreeArray[]" name="SubTreeArray[]" type="hidden" value="{$node.node_id}" />
+        <input id="searchbutton" class="button-disabled" type="submit" value="{'Search'|i18n('ticketsystem/design/standard')}" alt="Submit" disabled="disabled" />
+        {else}
+        <input id="searchtext" name="SearchText" type="text" value="" size="12" />
+        <input id="SubTreeArray[]" name="SubTreeArray[]" type="hidden" value="{$node.node_id}" />
+        <input id="searchbutton" class="button" type="submit" value="{'Search'|i18n('ticketsystem/design/standard')}" alt="Submit" />
+            {if eq( $ui_context, 'browse' )}
+             <input name="Mode" type="hidden" value="browse" />
+            {/if}
+        {/if}
+      </form>
+    </div>
 												<div class="break"></div>
 </div> {* END class="block" *}
 </div>
@@ -148,6 +164,7 @@
 					<div class="content-navigation-childlist">
 						<table class="list" cellspacing="0">
 						    <tr>
+						    	<th> ID					</th>	
 								<th> Name of ticket		</th>	
 								<th> Priority			</th>
 								<th> Date				</th>		
@@ -160,8 +177,9 @@
 						    {section var=Nodes loop=$tickets sequence=array( bglight, bgdark )}
 						    {let child_name=$Nodes.item.name|wash 
 						    	 node_name=$node.name}
-					        <tr class="{$Nodes.sequence}">     
-								<td width="30%"> {node_view_gui view=line content_node=$Nodes.item}
+					        <tr class="{$Nodes.sequence}">
+					        	<td>{$Nodes.main_node_id}</td>    
+								<td width="30%">{node_view_gui view=line content_node=$Nodes.item} 
 								     {*attribute_view_gui attribute=$Nodes.object.data_map.name*}  									 </td>
 								<td width="10%"> {attribute_view_gui attribute=$Nodes.object.data_map.priority}							 	  	 </td>		
 								<td width="10%"> {$Nodes.object.published|l10n( 'shortdate' )}													 </td>
@@ -228,7 +246,8 @@
 								        			<div class="left">	
 								        			{def $class=fetch( 'content', 'class', hash( 'class_id', 'ticket' ) )}															 
 														<form method="post" action={"content/action/"|ezurl}>
-														    <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings','ContentObjectLocale' )}" />
+														    {* <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings','ContentObjectLocale' )}" /> *}
+															<input type="hidden" name="ContentLanguageCode" value="eng-GB" />
 															<input class="button" type="submit" name="NewButton" value="Add new ticket" />
 															<input type="hidden" name="ClassID" value={$class.id} />
 															<input type="hidden" name="NodeID" value="{$node.node_id}" />

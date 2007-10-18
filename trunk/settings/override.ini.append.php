@@ -1,4 +1,19 @@
 <?php /* #?ini charset="iso-8859-1"?
+
+[edit_state_ticket] 
+Source=content/datatype/edit/ezselection.tpl
+MatchFile=content/datatype/edit/state.tpl
+Subdir=templates
+Match[attribute_identifier]=state
+#Match[class_identifier]=ticket
+
+[edit_assigned_ticket] 
+Source=content/datatype/edit/ezobjectrelation.tpl
+MatchFile=content/datatype/edit/assigned.tpl
+Subdir=templates
+Match[attribute_identifier]=assigned
+#Match[class_identifier]=ticket
+
 [one_ticket]
 Source=node/view/full.tpl
 MatchFile=one_ticket.tpl
@@ -31,7 +46,7 @@ Match[class_identifier]=ticketsystem
 
 [assigned_to]
 Source=content/datatype/view/ezobjectrelation.tpl
-MatchFile=ezobjectrelation_assigned_to.tpl
+MatchFile=content/datatype/view/assigned.tpl
 Subdir=templates
 Match[attribute_identifier]=assigned
 
