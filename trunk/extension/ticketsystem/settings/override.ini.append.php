@@ -14,9 +14,9 @@ Subdir=templates
 Match[attribute_identifier]=assigned
 #Match[class_identifier]=ticket
 
-[one_ticket]
+[ticket]
 Source=node/view/full.tpl
-MatchFile=one_ticket.tpl
+MatchFile=ticket.tpl
 Subdir=templates
 Match[class_identifier]=ticket
 
@@ -29,12 +29,6 @@ Match[class_identifier]=ticket
 [edit_ticket_comment]
 Source=content/edit.tpl
 MatchFile=edit_comment.tpl
-Subdir=templates
-Match[class_identifier]=ticket_comment
-
-[one_comment]
-Source=node/view/full.tpl
-MatchFile=one_comment.tpl
 Subdir=templates
 Match[class_identifier]=ticket_comment
 

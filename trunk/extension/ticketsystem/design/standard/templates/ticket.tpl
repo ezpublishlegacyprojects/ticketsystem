@@ -122,8 +122,13 @@
 												</form>	
 												{undef}
 												</div>
-																								
-											    </div>    
+														<div class="element">	
+														<form action={$node.parent.url_alias|ezurl}>			
+													<input class="button" type="submit" value="Back to Ticketsystem" />
+													</form>
+												</div>	
+																						
+											    </div>  							 
 												<div class="break"></div>
 											</div>
 										</div>

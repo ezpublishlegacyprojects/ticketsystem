@@ -2,7 +2,7 @@
 {if $view_parameters.state}
     {def $selected_states=$view_parameters.state|trim(',')|explode( ',' )}
 {else}
-     {def $selected_states = array(0,1,2,3,4,5,6)}
+    {def $selected_states = array(0,1,2,3,4,5,6)}
 {/if}
 {if $view_parameters.creator}
     {def $selected_creator = $view_parameters.creator|trim(',')|explode( ',' )}
@@ -12,6 +12,58 @@
 {else}
      {def $selected_creator = array(0)}
 {/if}
+
+{def $selected_sort_by=array()}
+{if $view_parameters.sort_direction}
+{def $selected_sort_direction=true()}
+{else}
+{def $selected_sort_direction=false()}
+{/if}
+{switch match=$view_parameters.sort_by}
+
+
+    {case match='state'}
+     {set $selected_sort_by = array( 
+                array( 'attribute', $selected_sort_direction, 'ticket/state'  )
+             )}
+    {/case}
+    {case match='owner'}
+     {set $selected_sort_by = array( 
+                array( 'owner_id', $selected_sort_direction )
+             )}
+    {/case}
+    
+    {case match='published'}
+     {set $selected_sort_by = array( 
+                array( 'published', $selected_sort_direction )
+             )}
+    {/case}
+    
+    {case match='name'}
+     {set $selected_sort_by = array( 
+                array( 'name', $selected_sort_direction )
+             )}
+    {/case}
+    {case match='project'}
+     {set $selected_sort_by = array( 
+                array( 'attribute', $selected_sort_direction, 'ticket/project'  )
+             )}
+    {/case}
+ 
+    {case match='priority'}
+     {set $selected_sort_by = array( 
+                array( 'attribute', $selected_sort_direction, 'ticket/priority'  )
+             )}
+    {/case}
+    {case}
+     {set $selected_sort_by = array( 
+                array( 'attribute', false(), 'ticket/priority' ),
+                array( 'published', true() )
+             )}
+    {/case}
+ 
+{/switch}
+
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
 	 can_remove=false()
@@ -26,16 +78,13 @@
 {if and($selected_creator, $selected_creator|contains(0)|not )}
 {set $attribute_filter=$attribute_filter|append( array( 'owner', 'in', $selected_creator ) )}
 {/if}
-{*$attribute_filter|attribute(show,3)*}
+
 {def $tickets=fetch( 'content', 'list', hash( 'parent_node_id', $node.node_id, 
-'offset', $view_parameters.offset,
-'attribute_filter', $attribute_filter,
-'limit', $number_of_items,
-'sort_by', array( 
-                array( 'attribute', false(), 'ticket/priority' ),
-                array( 'published', true() )
-                
-             )
+	'offset', $view_parameters.offset,
+	'attribute_filter', $attribute_filter,
+	'limit', $number_of_items,
+	'sort_by', $selected_sort_by,
+	'extended_attribute_filter', array(),
 ) ) }
 
 {def $user=fetch(user, current_user)}
@@ -112,6 +161,23 @@
 </select>
 </div>
 <div class="element">
+<label for="sort_by">Sort</label><div class="break"></div>
+<select name="sort_by">
+<option value="published" {if $view_parameters.sort_by|eq('published')} selected{/if}>Date</option>
+<option value="priority" {if $view_parameters.sort_by|eq('priority')} selected{/if}>Priority</option>
+<option value="name" {if $view_parameters.sort_by|eq('name')} selected{/if}>Name</option>
+<option value="owner" {if $view_parameters.sort_by|eq('owner')} selected{/if}>Creator</option>
+<option value="project" {if $view_parameters.sort_by|eq('project')} selected{/if}>Project</option>
+<option value="state" {if $view_parameters.sort_by|eq('state')} selected{/if}>State</option>
+</select>
+<div class="break"></div>
+<label for="sort_direction">Sort order</label><div class="break"></div>
+<select name="sort_direction">
+<option value="0" {if $view_parameters.sort_direction|eq('0')} selected{/if}>Descending</option>
+<option value="1" {if $view_parameters.sort_direction|eq('1')} selected{/if}>Ascending</option>
+</select>
+</div>
+<div class="element">
 {literal}
 <input name="Select" value="Select" onclick="var url = document.selector.url.value;
     if ( document.selector.state.value )
@@ -133,6 +199,28 @@
             if ( document.selector.creator.options[i].selected == true )
             {
                 url += document.selector.creator.options[i].value + ',';
+            }
+        }
+    }
+    if ( document.selector.sort_by.value )
+    {
+        url += '/(sort_by)/';
+        for (var i=0; i < document.selector.sort_by.options.length; i++ ) 
+        {
+            if ( document.selector.sort_by.options[i].selected == true )
+            {
+                url += document.selector.sort_by.options[i].value;
+            }
+        }
+    }
+    if ( document.selector.sort_direction.value )
+    {
+        url += '/(sort_direction)/';
+        for (var i=0; i < document.selector.sort_direction.options.length; i++ ) 
+        {
+            if ( document.selector.sort_direction.options[i].selected == true )
+            {
+                url += document.selector.sort_direction.options[i].value;
             }
         }
     }

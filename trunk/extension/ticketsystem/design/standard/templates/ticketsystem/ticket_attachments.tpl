@@ -2,6 +2,7 @@
 {def $attachments=fetch( 'content', 'tree', hash( 'parent_node_id', $node.node_id, 
               'class_filter_type',  'include',
               'class_filter_array', array( 'ticket_attachment' ),
+              'limitation', array(),
 'sort_by', array( array( 'published', true() ) )
 ) ) }
 {if $attachments}

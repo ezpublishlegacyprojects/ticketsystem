@@ -1,6 +1,7 @@
 {def $comments=fetch( 'content', 'tree', hash( 'parent_node_id', $node.node_id, 
               'class_filter_type',  'include',
               'class_filter_array', array( 'ticket_comment' ),
+              'limitation', array(),
 'sort_by', array( array( 'published', true() ) )
 ) ) }
 		    <div class="content-view-children">
